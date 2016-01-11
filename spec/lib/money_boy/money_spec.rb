@@ -3,31 +3,31 @@ require 'money_boy/money'
 
 module MoneyBoy
   describe Money do
-    subject { described_class.new(50, 'EUR') }
+    let(:fifty_euro) { described_class.new(50, 'EUR') }
 
     it 'reports amount' do
-      expect(subject.amount).to eq 50
+      expect(fifty_euro.amount).to eq 50
     end
 
     it 'reports currency' do
-      expect(subject.currency).to eq 'EUR'
+      expect(fifty_euro.currency).to eq 'EUR'
     end
 
     it 'has a nice inspect-representation' do
-      expect(subject.inspect).to eq '50.00 EUR'
+      expect(fifty_euro.inspect).to eq '50.00 EUR'
     end
 
     describe 'equality' do
       it 'is equal if both the amount and the currency is the same' do
-        expect(subject).to eq Money.new(50, 'EUR')
+        expect(fifty_euro).to eq Money.new(50, 'EUR')
       end
 
       it 'is not equal to a normal number' do
-        expect(subject).not_to eq 50
+        expect(fifty_euro).not_to eq 50
       end
 
       it 'is equal if the amount differs by less than a cent' do
-        expect(subject).to eq Money.new(50.003, 'EUR')
+        expect(fifty_euro).to eq Money.new(50.003, 'EUR')
       end
     end
 
@@ -43,7 +43,7 @@ module MoneyBoy
       end
 
       it 'converts to another known currency' do
-        expect(subject.convert_to('USD')).to eq Money.new(55.5, 'USD')
+        expect(fifty_euro.convert_to('USD')).to eq Money.new(55.5, 'USD')
       end
 
       it 'raises an error if the target currency is unknown' do
