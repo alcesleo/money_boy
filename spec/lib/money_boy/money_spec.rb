@@ -16,5 +16,19 @@ module MoneyBoy
     it 'has a nice inspect-representation' do
       expect(subject.inspect).to eq '50.00 EUR'
     end
+
+    describe 'equality' do
+      it 'is equal if both the amount and the currency is the same' do
+        expect(subject).to eq Money.new(50, 'EUR')
+      end
+
+      it 'is not equal to a normal number' do
+        expect(subject).not_to eq 50
+      end
+
+      it 'is equal if the amount differs by less than a cent' do
+        expect(subject).to eq Money.new(50.003, 'EUR')
+      end
+    end
   end
 end
