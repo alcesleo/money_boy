@@ -5,7 +5,7 @@ module MoneyBoy
   class Converter
     attr_reader :conversion_rates
 
-    def initialize(conversion_rates)
+    def initialize(conversion_rates = MoneyBoy.conversion_rates)
       @conversion_rates = conversion_rates
     end
 

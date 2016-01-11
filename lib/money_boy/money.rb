@@ -1,3 +1,5 @@
+require 'money_boy/converter'
+
 module MoneyBoy
   class Money
     attr_reader :amount, :currency
@@ -16,5 +18,9 @@ module MoneyBoy
       [amount, currency] == [other.amount, other.currency]
     end
     alias_method :eql?, :==
+
+    def convert_to(target_currency)
+      Converter.new.convert(self, target_currency)
+    end
   end
 end
