@@ -3,6 +3,16 @@ require 'money_boy/money'
 
 module MoneyBoy
   describe Money do
+      before(:all) do
+        MoneyBoy.set_conversion_rates({ 'EUR' => { 'USD' => 1.11 } })
+      end
+
+      after(:all) do
+        # Since this is globally set on the class, we need to tear down to make
+        # sure other tests are not affected by this.
+        MoneyBoy.set_conversion_rates(nil)
+      end
+
     let(:fifty_euro) { described_class.new(50, 'EUR') }
 
     it 'reports amount' do
@@ -29,19 +39,13 @@ module MoneyBoy
       it 'is equal if the amount differs by less than a cent' do
         expect(fifty_euro).to eq Money.new(50.003, 'EUR')
       end
+
+      it 'is equal if the Money objects have the same amount when converted to the same currency' do
+        expect(Money.new(55.50, 'USD')).to eq fifty_euro
+      end
     end
 
     describe 'conversions' do
-      before do
-        MoneyBoy.set_conversion_rates({ 'EUR' => { 'USD' => 1.11 } })
-      end
-
-      after do
-        # Since this is globally set on the class, we need to tear down to make
-        # sure tests can run in any order.
-        MoneyBoy.set_conversion_rates(nil)
-      end
-
       it 'converts to another known currency' do
         expect(fifty_euro.convert_to('USD')).to eq Money.new(55.5, 'USD')
       end

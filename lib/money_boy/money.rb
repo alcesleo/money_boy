@@ -15,7 +15,8 @@ module MoneyBoy
 
     def ==(other)
       return false unless Money === other
-      [amount, currency] == [other.amount, other.currency]
+      other = other.convert_to(self.currency)
+      amount == other.amount
     end
     alias_method :eql?, :==
 
