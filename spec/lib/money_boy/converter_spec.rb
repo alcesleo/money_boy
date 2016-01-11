@@ -12,6 +12,12 @@ module MoneyBoy
       expect(converter.convert(fifty_euro, 'USD')).to eq Money.new(55.5, 'USD')
     end
 
+    it 'is a no-op to convert to the same currency' do
+      fifty_euro = Money.new(50, 'EUR')
+
+      expect(converter.convert(fifty_euro, 'EUR')).to eq fifty_euro
+    end
+
     it 'raises an error if the target currency rate is unknown' do
       fifty_euro = Money.new(50, 'EUR')
 

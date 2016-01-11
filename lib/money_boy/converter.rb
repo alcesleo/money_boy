@@ -10,6 +10,8 @@ module MoneyBoy
     end
 
     def convert(money, target_currency)
+      return money if money.currency == target_currency
+
       Money.new(
         money.amount * conversion_rate(money.currency, target_currency),
         target_currency
