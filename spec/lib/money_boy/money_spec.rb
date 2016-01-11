@@ -49,7 +49,7 @@ module MoneyBoy
       it 'raises an error if the target currency is unknown' do
         fifty_btc = Money.new(50, 'Bitcoin')
 
-        expect { subject.convert_to('EUR') }.to raise_exception(ConversionError, /Unknown exchange rate/)
+        expect { fifty_btc.convert_to('EUR') }.to raise_exception(ConversionError, /Unknown exchange rate/)
       end
     end
   end
