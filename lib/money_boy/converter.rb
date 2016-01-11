@@ -1,8 +1,7 @@
 require 'money_boy/money'
+require 'money_boy/errors'
 
 module MoneyBoy
-  ConversionError = Class.new(StandardError)
-
   class Converter
     attr_reader :conversion_rates
 
@@ -23,7 +22,7 @@ module MoneyBoy
       # TODO: Use Hash#dig when we can use Ruby 2.3
       conversion_rates[from] and
         conversion_rates[from][to] or
-        raise ConversionError, "Unknown exchange rate"
+        fail ConversionError, "Unknown exchange rate"
     end
   end
 end
