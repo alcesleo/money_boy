@@ -24,20 +24,11 @@ module MoneyBoy
       Converter.new.convert(self, target_currency)
     end
 
-    def +(other)
-      Money.new(amount + other.convert_to(currency).amount, currency)
-    end
-
-    def -(other)
-      Money.new(amount - other.convert_to(currency).amount, currency)
-    end
-
-    def *(other)
-      Money.new(amount * other.convert_to(currency).amount, currency)
-    end
-
-    def /(other)
-      Money.new(amount / other.convert_to(currency).amount, currency)
+    # Define arithmetic operations
+    %i{ + - * / }.each do |operator|
+      define_method(operator) do |other|
+        Money.new(amount.public_send(operator, other.convert_to(currency).amount), currency)
+      end
     end
   end
 end
