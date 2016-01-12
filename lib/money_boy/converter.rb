@@ -4,8 +4,6 @@ require 'money_boy/errors'
 
 module MoneyBoy
   class Converter
-    attr_reader :conversion_rates
-
     def initialize(conversion_rates = MoneyBoy.conversion_rates)
       @conversion_rates = conversion_rates
     end
@@ -20,6 +18,10 @@ module MoneyBoy
     end
 
     private
+
+    def conversion_rates
+      @conversion_rates || {}
+    end
 
     def conversion_rate(from, to)
       if conversion_rates[from] && conversion_rates[from][to]

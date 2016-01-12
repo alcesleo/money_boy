@@ -29,6 +29,13 @@ module MoneyBoy
       expect { converter.convert(fifty_btc, 'EUR') }.to raise_exception(ConversionError, /Unknown exchange rate/)
     end
 
+    it 'raises an error if no currencies are set at all' do
+      fifty_btc = Money.new(50, 'EUR')
+      converter = Converter.new(nil)
+
+      expect { converter.convert(fifty_btc, 'USD') }.to raise_exception(ConversionError, /Unknown exchange rate/)
+    end
+
     it 'is able to do reverse conversions' do
       fifty_dollar = Money.new(50, 'USD')
 
