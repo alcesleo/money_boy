@@ -23,5 +23,21 @@ module MoneyBoy
     def convert_to(target_currency)
       Converter.new.convert(self, target_currency)
     end
+
+    def +(other)
+      Money.new(amount + other.convert_to(currency).amount, currency)
+    end
+
+    def -(other)
+      Money.new(amount - other.convert_to(currency).amount, currency)
+    end
+
+    def *(other)
+      Money.new(amount * other.convert_to(currency).amount, currency)
+    end
+
+    def /(other)
+      Money.new(amount / other.convert_to(currency).amount, currency)
+    end
   end
 end

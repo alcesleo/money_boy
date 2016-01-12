@@ -56,5 +56,30 @@ module MoneyBoy
         expect { fifty_btc.convert_to('EUR') }.to raise_exception(ConversionError, /Unknown exchange rate/)
       end
     end
+
+    describe 'arithmetic' do
+      let(:seven_euro) { Money.new(7, 'EUR') }
+
+      it 'handles addition' do
+        expect(fifty_euro + seven_euro).to eq Money.new(57, 'EUR')
+      end
+
+      it 'handles subtraction' do
+        expect(fifty_euro - seven_euro).to eq Money.new(43, 'EUR')
+      end
+
+      it 'handles multiplication' do
+        expect(fifty_euro * seven_euro).to eq Money.new(350, 'EUR')
+      end
+
+      it 'handles division' do
+        expect(fifty_euro / seven_euro).to eq Money.new(7.14, 'EUR')
+      end
+
+      it 'handles arithmetic with differing currencies' do
+        hundred_dollar = Money.new(100, 'USD')
+        expect(hundred_dollar - fifty_euro).to eq Money.new(44.50, 'USD')
+      end
+    end
   end
 end
