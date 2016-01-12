@@ -89,6 +89,15 @@ module MoneyBoy
         hundred_dollar = Money.new(100, 'USD')
         expect(hundred_dollar - fifty_euro).to eq Money.new(44.50, 'USD')
       end
+
+      it 'handles arithmetic with numbers' do
+        expect(fifty_euro + 5).to eq Money.new(55, 'EUR')
+        expect(fifty_euro / 2).to eq Money.new(25, 'EUR')
+      end
+
+      it 'raises an error when you try to perform an arithmetic operation with an incompatible object' do
+        expect { fifty_euro + [] }.to raise_exception(ArgumentError, /Incompatible types/)
+      end
     end
   end
 end

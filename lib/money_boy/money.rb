@@ -31,7 +31,13 @@ module MoneyBoy
     # Define arithmetic operations
     %i{ + - * / }.each do |operator|
       define_method(operator) do |other|
-        Money.new(amount.public_send(operator, other.convert_to(currency).amount), currency)
+        other_amount = case other
+                       when Money   then other.convert_to(currency).amount
+                       when Numeric then other
+                       else fail ArgumentError, 'Incompatible types'
+                       end
+
+        Money.new(amount.public_send(operator, other_amount), currency)
       end
     end
   end
