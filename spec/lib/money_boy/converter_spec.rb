@@ -32,7 +32,7 @@ module MoneyBoy
     it 'is able to do reverse conversions' do
       fifty_dollar = Money.new(50, 'USD')
 
-      expect(converter.convert(fifty_dollar, 'EUR').amount).to eq 45.05
+      expect(converter.convert(fifty_dollar, 'EUR')).to eq Money.new(45.05, 'EUR')
     end
   end
 end
