@@ -8,7 +8,7 @@ module MoneyBoy
       end
 
       after(:all) do
-        # Since this is globally set on the class, we need to tear down to make
+        # Since this is set globally, we need to tear down to make
         # sure other tests are not affected by this.
         MoneyBoy.set_conversion_rates(nil)
       end
