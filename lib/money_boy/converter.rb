@@ -1,3 +1,4 @@
+require 'money_boy'
 require 'money_boy/money'
 require 'money_boy/errors'
 
@@ -21,10 +22,13 @@ module MoneyBoy
     private
 
     def conversion_rate(from, to)
-      # TODO: Use Hash#dig when we can use Ruby 2.3
-      conversion_rates[from] and
-        conversion_rates[from][to] or
+      if conversion_rates[from] && conversion_rates[from][to]
+        conversion_rates[from][to]
+      elsif conversion_rates[to] && conversion_rates[to][from]
+        1.0 / conversion_rates[to][from]
+      else
         fail ConversionError, "Unknown exchange rate"
+      end
     end
   end
 end

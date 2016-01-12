@@ -1,5 +1,4 @@
 require 'money_boy/converter'
-require 'money_boy/money'
 
 module MoneyBoy
   describe Converter do
@@ -28,6 +27,12 @@ module MoneyBoy
       fifty_btc = Money.new(50, 'Bitcoin')
 
       expect { converter.convert(fifty_btc, 'EUR') }.to raise_exception(ConversionError, /Unknown exchange rate/)
+    end
+
+    it 'is able to do reverse conversions' do
+      fifty_dollar = Money.new(50, 'USD')
+
+      expect(converter.convert(fifty_dollar, 'EUR').amount).to eq 45.05
     end
   end
 end

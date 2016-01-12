@@ -19,6 +19,8 @@ module MoneyBoy
       return false unless Money === other
       other = other.convert_to(self.currency)
       amount <=> other.amount
+    rescue ConversionError
+      nil # Invalid conversions are supposed to return nil to comply with Comparable
     end
     alias_method :eql?, :==
 
