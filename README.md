@@ -5,10 +5,13 @@
 ```ruby
 # Configure the currency rates with respect to a base currency (here EUR):
 
-Money.conversion_rates('EUR', {
+MoneyBoy.set_conversion_rates('EUR' => {
   'USD'     => 1.11,
   'Bitcoin' => 0.0047
 })
+
+# This lets us use it more tersely, without this, simply use MoneyBoy::Money instead of just Money
+include MoneyBoy
 
 # Instantiate money objects:
 
@@ -16,14 +19,16 @@ fifty_eur = Money.new(50, 'EUR')
 
 # Get amount and currency:
 
-fifty_eur.amount   # => 50
+fifty_eur.amount   # => 50.0
 fifty_eur.currency # => "EUR"
 fifty_eur.inspect  # => "50.00 EUR"
 
-# Convert to a different currency (should return a Money
-# instance, not a String):
+# Convert to a different currency (should return a Money instance, not a String):
 
 fifty_eur.convert_to('USD') # => 55.50 USD
+
+# Reverse conversion is supported
+fifty_eur.convert_to('USD').convert_to('EUR') # => 50.00 EUR
 
 # Perform operations in different currencies:
 
@@ -50,7 +55,7 @@ twenty_dollars < fifty_eur             # => true
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
