@@ -2,6 +2,8 @@ require 'money_boy/converter'
 
 module MoneyBoy
   class Money
+    include Comparable
+
     attr_reader :amount, :currency
 
     def initialize(amount, currency)
@@ -13,10 +15,10 @@ module MoneyBoy
       "#{'%.2f' % amount} #{currency}"
     end
 
-    def ==(other)
+    def <=>(other)
       return false unless Money === other
       other = other.convert_to(self.currency)
-      amount == other.amount
+      amount <=> other.amount
     end
     alias_method :eql?, :==
 

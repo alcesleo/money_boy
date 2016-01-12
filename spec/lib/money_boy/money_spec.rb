@@ -43,6 +43,15 @@ module MoneyBoy
       it 'is equal if the Money objects have the same amount when converted to the same currency' do
         expect(Money.new(55.50, 'USD')).to eq fifty_euro
       end
+
+      it 'handles less/greater than' do
+        expect(Money.new(49, 'EUR')).to be < fifty_euro
+        expect(Money.new(49, 'EUR')).not_to be > fifty_euro
+      end
+
+      it 'handles less/greater than with other currencies' do
+        expect(Money.new(51, 'USD')).to be < fifty_euro
+      end
     end
 
     describe 'conversions' do
