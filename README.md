@@ -1,21 +1,5 @@
 # MoneyBoy
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'money_boy'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install money_boy
-
 ## Usage
 
 ```ruby
