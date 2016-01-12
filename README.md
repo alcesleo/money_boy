@@ -1,5 +1,7 @@
 # MoneyBoy
 
+Named after the _great_ Austrian rapper.
+
 ## Usage
 
 ```ruby
