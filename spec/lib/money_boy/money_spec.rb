@@ -78,11 +78,11 @@ module MoneyBoy
       end
 
       it 'handles multiplication' do
-        expect(fifty_euro * seven_euro).to eq Money.new(350, 'EUR')
+        expect(fifty_euro * 7).to eq Money.new(350, 'EUR')
       end
 
       it 'handles division' do
-        expect(fifty_euro / seven_euro).to eq Money.new(7.14, 'EUR')
+        expect(fifty_euro / 7).to eq Money.new(7.14, 'EUR')
       end
 
       it 'handles arithmetic with differing currencies' do
