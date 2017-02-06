@@ -16,7 +16,7 @@ module MoneyBoy
     end
 
     def <=>(other)
-      return false unless Money === other
+      return nil unless self.class === other
       other = other.convert_to(self.currency)
       amount <=> other.amount
     rescue ConversionError
