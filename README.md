@@ -4,4 +4,4 @@
 
 Run the tests
 
-    $ rake
+    $ bundle exec rake
