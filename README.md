@@ -1,4 +1,4 @@
-# MoneyBoy2
+# MoneyBoy
 
 ## Development
 

@@ -1,8 +1,8 @@
 require "test_helper"
 
-class MoneyBoy2Test < Minitest::Test
+class MoneyBoyTest < Minitest::Test
   def test_that_it_has_a_version_number
-    refute_nil ::MoneyBoy2::VERSION
+    refute_nil ::MoneyBoy::VERSION
   end
 
   def test_it_does_something_useful
