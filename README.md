@@ -16,11 +16,7 @@ Money.conversion_rates = {
   }
 }
 
-# If you prefer not monkeypatching Numeric as shown below, you can call
-# `Money.disable_monkey_patches!` before setting the conversion rates.
-
 # Instantiate money objects:
-fifty_eur = Money.new(50, "EUR")
 fifty_eur = 50.eur
 
 # It will not reveal its internal variables since that breaks encapsulation

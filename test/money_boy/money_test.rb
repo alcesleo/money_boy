@@ -2,10 +2,8 @@ require "test_helper"
 require "money_boy"
 
 class MoneyTest < Minitest::Test
-  include MoneyBoy
-
   def setup
-    Money.conversion_rates = {
+    MoneyBoy::Money.conversion_rates = {
       "EUR" => {
         "USD" => 1.11,
         "BTC" => 0.0047,
@@ -51,7 +49,7 @@ class MoneyTest < Minitest::Test
     assert_operator 9.eur, :==, 9.99.usd
     assert_operator 9.99.usd, :==, 9.eur
 
-    assert_raises(ArgumentError) { 5.eur < Money.new(5, "UNKNOWN") }
+    assert_raises(ArgumentError) { 5.eur < 5 }
   end
 
   def test_arithmetic
@@ -68,6 +66,7 @@ class MoneyTest < Minitest::Test
     assert_raises(NoMethodError) { 9.eur.amount }
     assert_raises(NoMethodError) { 9.eur.currency }
     assert_raises(NoMethodError) { 9.eur.conversion_rates }
-    assert_raises(NoMethodError) { Money.conversion_rates }
+    assert_raises(NoMethodError) { MoneyBoy::Money.conversion_rates }
+    assert_raises(NoMethodError) { MoneyBoy::Money.new(1, "EUR") }
   end
 end

@@ -6,18 +6,13 @@ module MoneyBoy
 
     DECIMAL_PRECISION = 2
 
-    attr_reader :amount, :currency
-    protected :amount, :currency
-
-    @disable_monkey_patches = false
-    def self.disable_monkey_patches!
-      @disable_monkey_patches = true
-    end
+    private_class_method :new
 
     def self.conversion_rates=(conversion_rates)
       @conversion_rates = conversion_rates
+
       define_conversion_methods
-      define_convenience_constructors unless @disable_monkey_patches
+      define_convenience_constructors
     end
 
     def initialize(amount, currency)
@@ -39,20 +34,13 @@ module MoneyBoy
       format("%.2f %s", amount, currency)
     end
 
-    def convert_to(target_currency)
-      self.class.new(
-        amount * conversion_rate(currency, target_currency),
-        target_currency,
-      )
-    end
-
     def +(other)
       fail ArgumentError unless other.is_a?(self.class)
-      self.class.new(amount + other.convert_to(currency).amount, currency)
+      instantiate(amount + other.convert_to(currency).amount, currency)
     end
 
     def -@
-      self.class.new(-amount, currency)
+      instantiate(-amount, currency)
     end
 
     def -(other)
@@ -61,11 +49,24 @@ module MoneyBoy
 
     protected
 
+    attr_reader :amount, :currency
+
     def rounded_amount
       amount.round(DECIMAL_PRECISION)
     end
 
+    def convert_to(target_currency)
+      instantiate(
+        amount * conversion_rate(currency, target_currency),
+        target_currency,
+      )
+    end
+
     private
+
+    def instantiate(amount, currency)
+      self.class.send(:new, amount, currency)
+    end
 
     def conversion_rates
       self.class.instance_variable_get(:@conversion_rates)
@@ -99,7 +100,7 @@ module MoneyBoy
 
         Numeric.class_eval do
           define_method(currency.downcase) do
-            money_class.new(self, currency)
+            money_class.send(:new, self, currency)
           end
         end
       end
