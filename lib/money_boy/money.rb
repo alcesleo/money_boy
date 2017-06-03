@@ -9,7 +9,8 @@ module MoneyBoy
 
     private_class_method :new
 
-    def self.conversion_rates=(conversion_rates)
+    def self.set_conversion_rates(base_currency, conversion_rates)
+      @base_currency    = base_currency
       @conversion_rates = conversion_rates
 
       define_conversion_methods
@@ -28,7 +29,7 @@ module MoneyBoy
     alias eql? ==
 
     def hash
-      [amount, currency].hash
+      convert_to(base_currency).rounded_amount.hash
     end
 
     def inspect
@@ -79,6 +80,10 @@ module MoneyBoy
       self.class.send(:new, amount, currency)
     end
 
+    def base_currency
+      self.class.instance_variable_get(:@base_currency)
+    end
+
     def conversion_rates
       self.class.instance_variable_get(:@conversion_rates)
     end
@@ -86,10 +91,10 @@ module MoneyBoy
     def conversion_rate(from, to)
       return 1.0 if from == to
 
-      if conversion_rates[from] && conversion_rates[from][to]
-        conversion_rates[from][to]
-      elsif conversion_rates[to] && conversion_rates[to][from]
-        1.0 / conversion_rates[to][from]
+      if base_currency == from && conversion_rates[to]
+        conversion_rates[to]
+      elsif base_currency == to && conversion_rates[from]
+        1.0 / conversion_rates[from]
       else
         fail ArgumentError, "Unknown conversion rate"
       end
@@ -119,7 +124,7 @@ module MoneyBoy
     private_class_method :define_convenience_constructors
 
     def self.currencies
-      @conversion_rates.flat_map { |base, rates| [base] + rates.keys }
+      [@base_currency] + @conversion_rates.keys
     end
     private_class_method :currencies
   end

@@ -3,17 +3,18 @@ require "money_boy"
 
 class MoneyTest < Minitest::Test
   def setup
-    MoneyBoy::Money.conversion_rates = {
-      "EUR" => {
-        "USD" => 1.11,
-        "SEK" => 10,
-      },
-    }
+    MoneyBoy::Money.set_conversion_rates(
+      "EUR",
+      "USD" => 1.11,
+      "SEK" => 10,
+    )
   end
 
   def test_equality
     assert_equal 9.eur, 9.eur
     assert_equal 9.eur, 9.0.eur
+    assert_equal 9.eur, 9.99.usd
+    assert_equal 9.99.usd, 9.eur
 
     refute_equal 9.eur, 10.eur
     refute_equal 9.eur, 9.usd
@@ -22,11 +23,12 @@ class MoneyTest < Minitest::Test
   end
 
   def test_eql
-    assert 9.eur.eql?(9.eur), "Expected #eql? to do the same as #=="
+    assert 9.eur.eql?(9.eur), "Expected #eql? to behave as #=="
   end
 
   def test_hash
     assert_equal 9.eur.hash, 9.eur.hash
+    assert_equal 9.eur.hash, 9.99.usd.hash
   end
 
   def test_inspect
@@ -45,8 +47,6 @@ class MoneyTest < Minitest::Test
   def test_comparisons
     assert_operator 9.eur, :<, 10.eur
     assert_operator 10.eur, :>, 10.usd
-    assert_operator 9.eur, :==, 9.99.usd
-    assert_operator 9.99.usd, :==, 9.eur
 
     assert_raises(ArgumentError) { 5.eur < 5 }
   end

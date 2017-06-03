@@ -9,12 +9,11 @@ Run the tests
 ## Specification
 
 ```ruby
-MoneyBoy::Money.conversion_rates = {
-  "EUR" => {
+MoneyBoy::Money.set_conversion_rates("EUR", {
     "USD" => 1.11,
     "SEK" => 10,
   }
-}
+)
 
 # Instantiate money objects:
 fifty_eur = 50.eur
