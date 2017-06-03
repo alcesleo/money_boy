@@ -56,10 +56,15 @@ class MoneyTest < Minitest::Test
     assert_raises(ArgumentError) { 5.eur < Money.new(5, "UNKNOWN") }
   end
 
-  # def test_arithmetic
-  #   assert_equal 9.eur, 5.eur + 4.eur
-  #   assert_equal 1.eur, 5.eur - 4.eur
-  # end
+  def test_arithmetic
+    assert_equal 9.eur, 5.eur + 4.eur
+    assert_equal 1.eur, 5.eur - 4.eur
+    assert_equal 10.eur, 5.50.eur + 5.usd
+    assert_equal 10.eur, 5.usd + 5.50.eur
+
+    assert_raises(ArgumentError) { 5.eur + 5 }
+    assert_raises(ArgumentError) { 5.eur - 5 }
+  end
 
   def test_encapsulation
     assert_raises(NoMethodError) { 9.eur.amount }

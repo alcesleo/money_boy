@@ -1,6 +1,10 @@
+require "bigdecimal"
+
 module MoneyBoy
   class Money
     include Comparable
+
+    DECIMAL_PRECISION = 2
 
     attr_reader :amount, :currency
     protected :amount, :currency
@@ -16,13 +20,13 @@ module MoneyBoy
     end
 
     def initialize(amount, currency)
-      @amount   = amount.round(2)
+      @amount   = BigDecimal.new(amount.to_s)
       @currency = currency
     end
 
     def <=>(other)
       return nil unless other.is_a?(self.class)
-      amount <=> other.convert_to(currency).amount
+      rounded_amount <=> other.convert_to(currency).rounded_amount
     end
     alias eql? ==
 
@@ -39,6 +43,25 @@ module MoneyBoy
         amount * conversion_rate(currency, target_currency),
         target_currency,
       )
+    end
+
+    def +(other)
+      fail ArgumentError unless other.is_a?(self.class)
+      self.class.new(amount + other.convert_to(currency).amount, currency)
+    end
+
+    def -@
+      self.class.new(-amount, currency)
+    end
+
+    def -(other)
+      self + -other
+    end
+
+    protected
+
+    def rounded_amount
+      amount.round(DECIMAL_PRECISION)
     end
 
     private
@@ -72,12 +95,5 @@ module MoneyBoy
       end
     end
     private_class_method :define_convenience_constructors
-  end
-end
-
-module MoneyBoy
-  module MoneyExtensions
-    refine Numeric do
-    end
   end
 end
