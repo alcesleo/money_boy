@@ -24,7 +24,7 @@ module MoneyBoy
 
     def convert_to(target_currency)
       self.class.new(
-        amount * conversion_rates[currency][target_currency],
+        amount * conversion_rate(currency, target_currency),
         target_currency,
       )
     end
@@ -33,6 +33,14 @@ module MoneyBoy
 
     def conversion_rates
       self.class.instance_variable_get(:@conversion_rates)
+    end
+
+    def conversion_rate(from, to)
+      if conversion_rates[from] && conversion_rates[from][to]
+        conversion_rates[from][to]
+      elsif conversion_rates[to] && conversion_rates[to][from]
+        1 / conversion_rates[to][from]
+      end
     end
   end
 end
