@@ -47,6 +47,16 @@ module MoneyBoy
       self + -other
     end
 
+    def *(other)
+      fail ArgumentError unless other.is_a?(Numeric)
+      instantiate(amount * other, currency)
+    end
+
+    def /(other)
+      fail ArgumentError unless other.is_a?(Numeric)
+      instantiate(amount / other, currency)
+    end
+
     protected
 
     attr_reader :amount, :currency

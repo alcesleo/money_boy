@@ -60,6 +60,12 @@ class MoneyTest < Minitest::Test
 
     assert_raises(ArgumentError) { 5.eur + 5 }
     assert_raises(ArgumentError) { 5.eur - 5 }
+
+    assert_equal 9.eur, 4.5.eur * 2
+    assert_equal 4.5.eur, 9.eur / 2
+
+    assert_raises(ArgumentError) { 1.eur * 1.eur }
+    assert_raises(ArgumentError) { 1.usd / 1.usd }
   end
 
   def test_encapsulation
