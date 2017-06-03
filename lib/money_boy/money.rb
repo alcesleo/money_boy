@@ -3,8 +3,15 @@ module MoneyBoy
     attr_reader :amount, :currency
     protected :amount, :currency
 
+    class << self
+      attr_writer :conversion_rates
+
+      attr_reader :conversion_rates
+      private :conversion_rates
+    end
+
     def initialize(amount, currency)
-      @amount = amount
+      @amount   = amount
       @currency = currency
     end
 
@@ -17,5 +24,7 @@ module MoneyBoy
     def hash
       [amount, currency].hash
     end
+
+    def convert_to(currency); end
   end
 end

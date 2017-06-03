@@ -3,3 +3,7 @@ inherit_from:
 
 Metrics/AbcSize:
   Enabled: false
+
+Style/BlockDelimiters:
+  Exclude:
+    - test/**/*.rb
