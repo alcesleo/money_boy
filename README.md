@@ -26,11 +26,11 @@ fifty_eur.currency # => NoMethodError
 fifty_eur.inspect  # => "50.00 EUR"
 
 # Convert to a different currency
-fifty_eur.convert_to('USD') # => 55.50 USD
+fifty_eur.to_usd # => 55.50 USD
 
 # Perform operations in different currencies:
 
-twenty_dollars = Money.new(20, 'USD')
+twenty_dollars = 20.usd
 
 # Arithmetics:
 
@@ -41,12 +41,12 @@ twenty_dollars * 3         # => 60 USD
 
 # Comparisons (also in different currencies):
 
-twenty_dollars == Money.new(20, 'USD') # => true
-twenty_dollars == Money.new(30, 'USD') # => false
+twenty_dollars == 20.usd # => true
+twenty_dollars == 30.usd # => false
 
-fifty_eur_in_usd = fifty_eur.convert_to('USD')
+fifty_eur_in_usd = fifty_eur.to_usd
 fifty_eur_in_usd == fifty_eur          # => true
 
-twenty_dollars > Money.new(5, 'USD')   # => true
+twenty_dollars > 5.usd   # => true
 twenty_dollars < fifty_eur             # => true
 ```
