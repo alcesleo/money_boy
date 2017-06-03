@@ -46,6 +46,8 @@ class MoneyTest < Minitest::Test
   def test_comparisons
     assert_operator 9.eur, :<, 10.eur
     assert_operator 10.eur, :>, 10.usd
+    assert_operator 9.eur, :==, 9.99.usd
+    assert_operator 9.99.usd, :==, 9.eur
 
     assert_raises(ArgumentError) { 5.eur < Money.new(5, "UNKNOWN") }
   end
