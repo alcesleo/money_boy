@@ -37,11 +37,11 @@ class MoneyTest < Minitest::Test
 
   def test_conversions
     assert_equal 9.eur, 9.eur.to_eur
-
-    assert_equal 9.99.usd, 9.eur.to_usd
     assert_equal 9.eur, 9.99.usd.to_eur
-
+    assert_equal 9.99.usd, 9.eur.to_usd
     assert_equal 5.7.eur, 57.sek.to_eur
+    assert_equal 90.sek, 9.99.usd.to_sek
+    assert_equal 9.99.usd.to_sek, 90.sek
   end
 
   def test_comparisons

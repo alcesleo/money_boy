@@ -15,6 +15,8 @@ module MoneyBoy
 
       define_conversion_methods
       define_convenience_constructors
+
+      nil
     end
 
     def initialize(amount, currency)
@@ -68,10 +70,7 @@ module MoneyBoy
     end
 
     def convert_to(target_currency)
-      instantiate(
-        amount * conversion_rate(currency, target_currency),
-        target_currency,
-      )
+      instantiate(converted_amount(target_currency), target_currency)
     end
 
     private
@@ -88,16 +87,17 @@ module MoneyBoy
       self.class.instance_variable_get(:@conversion_rates)
     end
 
-    def conversion_rate(from, to)
-      return 1.0 if from == to
+    def converted_amount(target_currency)
+      amount_in_base_currency * conversion_rate(target_currency)
+    end
 
-      if base_currency == from && conversion_rates[to]
-        conversion_rates[to]
-      elsif base_currency == to && conversion_rates[from]
-        1.0 / conversion_rates[from]
-      else
-        fail ArgumentError, "Unknown conversion rate"
-      end
+    def amount_in_base_currency
+      amount * (1.0 / conversion_rate(currency))
+    end
+
+    def conversion_rate(target_currency)
+      return 1.0 if target_currency == base_currency
+      conversion_rates.fetch(target_currency)
     end
 
     def self.define_conversion_methods
