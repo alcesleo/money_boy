@@ -5,13 +5,10 @@ module MoneyBoy
 
     class << self
       attr_writer :conversion_rates
-
-      attr_reader :conversion_rates
-      private :conversion_rates
     end
 
     def initialize(amount, currency)
-      @amount   = amount
+      @amount   = amount.round(2)
       @currency = currency
     end
 
@@ -25,6 +22,17 @@ module MoneyBoy
       [amount, currency].hash
     end
 
-    def convert_to(currency); end
+    def convert_to(target_currency)
+      self.class.new(
+        amount * conversion_rates[currency][target_currency],
+        target_currency,
+      )
+    end
+
+    private
+
+    def conversion_rates
+      self.class.instance_variable_get(:@conversion_rates)
+    end
   end
 end

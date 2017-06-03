@@ -31,13 +31,14 @@ class MoneyTest < Minitest::Test
     assert_equal Money.new(9, "EUR").hash, Money.new(9, "EUR").hash
   end
 
-  # def test_conversions
-  #   assert_equal Money.new(50, "USD"), Money.new(9, "EUR").convert_to("USD")
-  # end
+  def test_conversions
+    assert_equal Money.new(5.55, "USD"), Money.new(5, "EUR").convert_to("USD")
+  end
 
   def test_encapsulation
     assert_raises(NoMethodError) { Money.new(9, "EUR").amount }
     assert_raises(NoMethodError) { Money.new(9, "EUR").currency }
+    assert_raises(NoMethodError) { Money.new(9, "EUR").conversion_rates }
     assert_raises(NoMethodError) { Money.conversion_rates }
   end
 end
