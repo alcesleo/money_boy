@@ -11,8 +11,8 @@ Run the tests
 ```ruby
 MoneyBoy::Money.conversion_rates = {
   "EUR" => {
-    "USD"     => 1.11,
-    "Bitcoin" => 0.0047,
+    "USD" => 1.11,
+    "SEK" => 10,
   }
 }
 

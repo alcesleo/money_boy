@@ -1,6 +1,7 @@
 require "bigdecimal"
 
 module MoneyBoy
+  # Understands an amount of a certain currency
   class Money
     include Comparable
 

@@ -6,7 +6,6 @@ class MoneyTest < Minitest::Test
     MoneyBoy::Money.conversion_rates = {
       "EUR" => {
         "USD" => 1.11,
-        "BTC" => 0.0047,
         "SEK" => 10,
       },
     }
