@@ -20,19 +20,16 @@ Money.conversion_rates = {
 # `Money.disable_monkey_patches!` before setting the conversion rates.
 
 # Instantiate money objects:
-
 fifty_eur = Money.new(50, "EUR")
 fifty_eur = 50.eur
 
-# Get amount and currency:
+# It will not reveal its internal variables since that breaks encapsulation
+fifty_eur.amount   # => NoMethodError
+fifty_eur.currency # => NoMethodError
 
-fifty_eur.amount   # => 50
-fifty_eur.currency # => "EUR"
 fifty_eur.inspect  # => "50.00 EUR"
 
-# Convert to a different currency (should return a Money
-# instance, not a String):
-
+# Convert to a different currency
 fifty_eur.convert_to('USD') # => 55.50 USD
 
 # Perform operations in different currencies:
