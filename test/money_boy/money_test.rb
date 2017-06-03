@@ -32,8 +32,12 @@ class MoneyTest < Minitest::Test
   end
 
   def test_conversions
-    assert_equal Money.new(5.55, "USD"), Money.new(5, "EUR").convert_to("USD")
-    assert_equal Money.new(5, "EUR"), Money.new(5.55, "USD").convert_to("EUR")
+    assert_equal Money.new(9, "EUR"), Money.new(9, "EUR").convert_to("EUR")
+
+    assert_equal Money.new(9.99, "USD"), Money.new(9, "EUR").convert_to("USD")
+    assert_equal Money.new(9, "EUR"), Money.new(9.99, "USD").convert_to("EUR")
+
+    assert_raises(ArgumentError) { Money.new(5, "EUR").convert_to("UNKNOWN") }
   end
 
   def test_encapsulation
