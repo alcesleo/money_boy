@@ -105,7 +105,10 @@ module MoneyBoy
 
       def define_conversion_methods
         currencies.each do |currency|
-          define_method("to_#{currency.downcase}") do
+          conversion_method = "to_#{currency.downcase}"
+          next if method_defined?(conversion_method)
+
+          define_method(conversion_method) do
             convert_to(currency)
           end
         end
