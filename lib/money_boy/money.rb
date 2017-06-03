@@ -1,5 +1,7 @@
 module MoneyBoy
   class Money
+    include Comparable
+
     attr_reader :amount, :currency
     protected :amount, :currency
 
@@ -12,9 +14,9 @@ module MoneyBoy
       @currency = currency
     end
 
-    def ==(other)
-      return false unless other.is_a?(self.class)
-      amount == other.amount && currency == other.currency
+    def <=>(other)
+      return nil unless other.is_a?(self.class)
+      amount <=> other.convert_to(currency).amount
     end
     alias eql? ==
 

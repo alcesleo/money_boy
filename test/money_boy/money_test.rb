@@ -43,6 +43,13 @@ class MoneyTest < Minitest::Test
     assert_raises(ArgumentError) { Money.new(5, "EUR").convert_to("UNKNOWN") }
   end
 
+  def test_comparisons
+    assert_operator Money.new(9, "EUR"), :<, Money.new(10, "EUR")
+    assert_operator Money.new(10, "EUR"), :>, Money.new(10, "USD")
+
+    assert_raises(ArgumentError) { Money.new(5, "EUR") < Money.new(5, "UNKNOWN") }
+  end
+
   def test_encapsulation
     assert_raises(NoMethodError) { Money.new(9, "EUR").amount }
     assert_raises(NoMethodError) { Money.new(9, "EUR").currency }
