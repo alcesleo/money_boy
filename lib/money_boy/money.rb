@@ -5,8 +5,13 @@ module MoneyBoy
     attr_reader :amount, :currency
     protected :amount, :currency
 
-    class << self
-      attr_writer :conversion_rates
+    def self.disable_monkey_patches!
+      @disable_monkey_patches = true
+    end
+
+    def self.conversion_rates=(conversion_rates)
+      @conversion_rates = conversion_rates
+      define_convenience_constructors unless @disable_monkey_patches
     end
 
     def initialize(amount, currency)
@@ -47,6 +52,25 @@ module MoneyBoy
       else
         fail ArgumentError, "Unknown conversion rate"
       end
+    end
+
+    def self.define_convenience_constructors
+      money_class = self
+      @conversion_rates.flat_map { |base, rates| [base] + rates.keys }.each do |currency|
+        Numeric.class_eval do
+          define_method currency.downcase do
+            money_class.new(self, currency)
+          end
+        end
+      end
+    end
+    private_class_method :define_convenience_constructors
+  end
+end
+
+module MoneyBoy
+  module MoneyExtensions
+    refine Numeric do
     end
   end
 end

@@ -9,14 +9,20 @@ Run the tests
 ## Specification
 
 ```ruby
-Money.conversion_rates('EUR', {
-  'USD'     => 1.11,
-  'Bitcoin' => 0.0047
-})
+Money.conversion_rates = {
+  "EUR" => {
+    "USD"     => 1.11,
+    "Bitcoin" => 0.0047,
+  }
+}
+
+# If you prefer not monkeypatching Numeric as shown below, you can call
+# `Money.disable_monkey_patches!` before setting the conversion rates.
 
 # Instantiate money objects:
 
-fifty_eur = Money.new(50, 'EUR')
+fifty_eur = Money.new(50, "EUR")
+fifty_eur = 50.eur
 
 # Get amount and currency:
 

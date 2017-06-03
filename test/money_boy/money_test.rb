@@ -15,45 +15,50 @@ class MoneyTest < Minitest::Test
   end
 
   def test_equality
-    assert_equal Money.new(9, "EUR"), Money.new(9, "EUR")
-    assert_equal Money.new(9, "EUR"), Money.new(9.0, "EUR")
+    assert_equal 9.eur, 9.eur
+    assert_equal 9.eur, 9.0.eur
 
-    refute_equal Money.new(9, "EUR"), Money.new(10, "EUR")
-    refute_equal Money.new(9, "EUR"), Money.new(9, "USD")
-    refute_equal Money.new(9, "EUR"), Object.new
-    refute_equal Money.new(9, "EUR"), nil
+    refute_equal 9.eur, 10.eur
+    refute_equal 9.eur, 9.usd
+    refute_equal 9.eur, Object.new
+    refute_equal 9.eur, nil
   end
 
   def test_eql
-    assert Money.new(9, "EUR").eql?(Money.new(9, "EUR")), "Expected #eql? to do the same as #=="
+    assert 9.eur.eql?(9.eur), "Expected #eql? to do the same as #=="
   end
 
   def test_hash
-    assert_equal Money.new(9, "EUR").hash, Money.new(9, "EUR").hash
+    assert_equal 9.eur.hash, 9.eur.hash
   end
 
   def test_conversions
-    assert_equal Money.new(9, "EUR"), Money.new(9, "EUR").convert_to("EUR")
+    assert_equal 9.eur, 9.eur.convert_to("EUR")
 
-    assert_equal Money.new(9.99, "USD"), Money.new(9, "EUR").convert_to("USD")
-    assert_equal Money.new(9, "EUR"), Money.new(9.99, "USD").convert_to("EUR")
+    assert_equal 9.99.usd, 9.eur.convert_to("USD")
+    assert_equal 9.eur, 9.99.usd.convert_to("EUR")
 
-    assert_equal Money.new(5.7, "EUR"), Money.new(57, "SEK").convert_to("EUR")
+    assert_equal 5.7.eur, 57.sek.convert_to("EUR")
 
-    assert_raises(ArgumentError) { Money.new(5, "EUR").convert_to("UNKNOWN") }
+    assert_raises(ArgumentError) { 5.eur.convert_to("UNKNOWN") }
   end
 
   def test_comparisons
-    assert_operator Money.new(9, "EUR"), :<, Money.new(10, "EUR")
-    assert_operator Money.new(10, "EUR"), :>, Money.new(10, "USD")
+    assert_operator 9.eur, :<, 10.eur
+    assert_operator 10.eur, :>, 10.usd
 
-    assert_raises(ArgumentError) { Money.new(5, "EUR") < Money.new(5, "UNKNOWN") }
+    assert_raises(ArgumentError) { 5.eur < Money.new(5, "UNKNOWN") }
   end
 
+  # def test_arithmetic
+  #   assert_equal 9.eur, 5.eur + 4.eur
+  #   assert_equal 1.eur, 5.eur - 4.eur
+  # end
+
   def test_encapsulation
-    assert_raises(NoMethodError) { Money.new(9, "EUR").amount }
-    assert_raises(NoMethodError) { Money.new(9, "EUR").currency }
-    assert_raises(NoMethodError) { Money.new(9, "EUR").conversion_rates }
+    assert_raises(NoMethodError) { 9.eur.amount }
+    assert_raises(NoMethodError) { 9.eur.currency }
+    assert_raises(NoMethodError) { 9.eur.conversion_rates }
     assert_raises(NoMethodError) { Money.conversion_rates }
   end
 end
