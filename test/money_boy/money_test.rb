@@ -9,6 +9,7 @@ class MoneyTest < Minitest::Test
       "EUR" => {
         "USD" => 1.11,
         "BTC" => 0.0047,
+        "SEK" => 10,
       },
     }
   end
@@ -36,6 +37,8 @@ class MoneyTest < Minitest::Test
 
     assert_equal Money.new(9.99, "USD"), Money.new(9, "EUR").convert_to("USD")
     assert_equal Money.new(9, "EUR"), Money.new(9.99, "USD").convert_to("EUR")
+
+    assert_equal Money.new(5.7, "EUR"), Money.new(57, "SEK").convert_to("EUR")
 
     assert_raises(ArgumentError) { Money.new(5, "EUR").convert_to("UNKNOWN") }
   end

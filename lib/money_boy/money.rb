@@ -36,12 +36,12 @@ module MoneyBoy
     end
 
     def conversion_rate(from, to)
-      return 1 if from == to
+      return 1.0 if from == to
 
       if conversion_rates[from] && conversion_rates[from][to]
         conversion_rates[from][to]
       elsif conversion_rates[to] && conversion_rates[to][from]
-        1 / conversion_rates[to][from]
+        1.0 / conversion_rates[to][from]
       else
         fail ArgumentError, "Unknown conversion rate"
       end
