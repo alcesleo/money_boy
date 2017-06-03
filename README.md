@@ -9,7 +9,7 @@ Run the tests
 ## Specification
 
 ```ruby
-Money.conversion_rates = {
+MoneyBoy::Money.conversion_rates = {
   "EUR" => {
     "USD"     => 1.11,
     "Bitcoin" => 0.0047,
@@ -36,8 +36,8 @@ twenty_dollars = 20.usd
 
 fifty_eur + twenty_dollars # => 68.02 EUR
 fifty_eur - twenty_dollars # => 31.98 EUR
-fifty_eur / 2              # => 25 EUR
-twenty_dollars * 3         # => 60 USD
+fifty_eur / 2              # => 25.00 EUR
+twenty_dollars * 3         # => 60.00 USD
 
 # Comparisons (also in different currencies):
 
@@ -47,6 +47,6 @@ twenty_dollars == 30.usd # => false
 fifty_eur_in_usd = fifty_eur.to_usd
 fifty_eur_in_usd == fifty_eur          # => true
 
-twenty_dollars > 5.usd   # => true
+twenty_dollars > 5.usd                 # => true
 twenty_dollars < fifty_eur             # => true
 ```
