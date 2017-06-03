@@ -73,5 +73,8 @@ class MoneyTest < Minitest::Test
     assert_raises(NoMethodError) { 9.eur.conversion_rates }
     assert_raises(NoMethodError) { MoneyBoy::Money.conversion_rates }
     assert_raises(NoMethodError) { MoneyBoy::Money.new(1, "EUR") }
+    assert_raises(NoMethodError) { MoneyBoy::Money.currencies }
+    assert_raises(NoMethodError) { MoneyBoy::Money.define_conversion_methods }
+    assert_raises(NoMethodError) { MoneyBoy::Money.define_convenience_constructors }
   end
 end
