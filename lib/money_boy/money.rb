@@ -30,6 +30,10 @@ module MoneyBoy
       [amount, currency].hash
     end
 
+    def inspect
+      format("%.2f %s", amount, currency)
+    end
+
     def convert_to(target_currency)
       self.class.new(
         amount * conversion_rate(currency, target_currency),

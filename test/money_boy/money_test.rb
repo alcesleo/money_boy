@@ -32,6 +32,10 @@ class MoneyTest < Minitest::Test
     assert_equal 9.eur.hash, 9.eur.hash
   end
 
+  def test_inspect
+    assert_equal "50.00 EUR", 50.eur.inspect
+  end
+
   def test_conversions
     assert_equal 9.eur, 9.eur.convert_to("EUR")
 
