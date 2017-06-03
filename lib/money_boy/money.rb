@@ -5,6 +5,7 @@ module MoneyBoy
     attr_reader :amount, :currency
     protected :amount, :currency
 
+    @disable_monkey_patches = false
     def self.disable_monkey_patches!
       @disable_monkey_patches = true
     end
@@ -57,6 +58,8 @@ module MoneyBoy
     def self.define_convenience_constructors
       money_class = self
       @conversion_rates.flat_map { |base, rates| [base] + rates.keys }.each do |currency|
+        next if Numeric.method_defined?(currency.downcase)
+
         Numeric.class_eval do
           define_method currency.downcase do
             money_class.new(self, currency)
