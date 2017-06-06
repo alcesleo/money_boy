@@ -10,6 +10,8 @@ module MoneyBoy
     private_class_method :new
 
     def self.set_conversion_rates(base_currency, conversion_rates)
+      fail "Conversion rates can only be set once" if instance_variable_defined?(:@base_currency)
+
       @base_currency    = base_currency
       @conversion_rates = conversion_rates
 

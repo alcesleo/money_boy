@@ -2,13 +2,11 @@ require "test_helper"
 require "money_boy"
 
 class MoneyTest < Minitest::Test
-  def setup
-    MoneyBoy::Money.set_conversion_rates(
-      "EUR",
-      "USD" => 1.11,
-      "SEK" => 10,
-    )
-  end
+  MoneyBoy::Money.set_conversion_rates(
+    "EUR",
+    "USD" => 1.11,
+    "SEK" => 10,
+  )
 
   def test_equality
     assert_equal 9.eur, 9.eur
@@ -76,5 +74,9 @@ class MoneyTest < Minitest::Test
     assert_raises(NoMethodError) { MoneyBoy::Money.currencies }
     assert_raises(NoMethodError) { MoneyBoy::Money.define_conversion_methods }
     assert_raises(NoMethodError) { MoneyBoy::Money.define_convenience_constructors }
+  end
+
+  def test_set_conversion_rates
+    assert_raises(RuntimeError) { MoneyBoy::Money.set_conversion_rates("USD", {}) }
   end
 end
