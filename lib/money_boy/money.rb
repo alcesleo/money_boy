@@ -107,10 +107,7 @@ module MoneyBoy
 
       def define_conversion_methods
         currencies.each do |currency|
-          conversion_method = "to_#{currency.downcase}"
-          next if method_defined?(conversion_method)
-
-          define_method(conversion_method) do
+          define_method("to_#{currency.downcase}") do
             convert_to(currency)
           end
         end
@@ -119,8 +116,6 @@ module MoneyBoy
       def define_convenience_constructors
         money_class = self
         currencies.each do |currency|
-          next if Numeric.method_defined?(currency.downcase)
-
           Numeric.class_eval do
             define_method(currency.downcase) do
               money_class.send(:new, self, currency)
