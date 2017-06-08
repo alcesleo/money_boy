@@ -20,8 +20,9 @@ class MoneyTest < Minitest::Test
     refute_equal 9.eur, nil
   end
 
-  def test_eql
-    assert 9.eur.eql?(9.eur), "Expected #eql? to behave as #=="
+  def test_hash_key_access
+    h = { 3.eur => :value }
+    assert_equal :value, h[3.eur]
   end
 
   def test_hash
